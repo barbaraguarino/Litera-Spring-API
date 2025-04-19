@@ -1,6 +1,6 @@
 # LiteraSpring
 
-LiteraSpring é uma API RESTful desenvolvida com Spring Boot para gerenciamento de uma biblioteca. O sistema permite o controle de livros, usuários, empréstimos e devoluções, visando oferecer uma base sólida e escalável para aplicações de gerenciamento bibliotecário.
+LiteraSpring é uma API RESTful desenvolvida com Spring Boot para gerenciamento de livros. O sistema permite o controle de livros, autores, gêneros literários, tradutores, sagas literárias, entre outras informações, visando oferecer uma base sólida e escalável para aplicações de gerenciamento bibliotecário.
 
 Este projeto é ideal para fins acadêmicos e práticos, ilustrando boas práticas de arquitetura, organização de código e utilização do ecossistema Spring.
 
