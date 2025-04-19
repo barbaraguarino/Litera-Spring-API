@@ -1,0 +1,2 @@
+# Litera-Spring-API
+ O sistema LiteraSpring visa ser uma biblioteca digital para o gerenciamento de livros, permitindo que os usuários possam realizar cadastros, listar, buscar, atualizar e excluir informações de livros, autores, editoras e gêneros, com dados armazenados em um banco de dados hospedado na AWS. Este sistema é desenvolvido com a finalidade de fornecer uma plataforma funcional e, ao mesmo tempo, ser um projeto de aprendizado e prática para o uso de Spring Boot e AWS.
