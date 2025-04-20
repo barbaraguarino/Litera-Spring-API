@@ -5,11 +5,11 @@ import com.guarino.literaspringapi.application.publisher.dto.PublisherResponseDT
 import com.guarino.literaspringapi.application.publisher.mapper.PublisherMapper;
 import com.guarino.literaspringapi.domain.publisher.repository.PublisherRepository;
 
-import com.guarino.literaspringapi.shared.exception.ResourceAlreadyExistsException;
+import com.guarino.literaspringapi.shared.util.UniquenessValidator;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import static com.guarino.literaspringapi.shared.util.StringUtils.isNotBlank;
+import java.util.Map;
 
 @Service
 @Transactional
@@ -17,30 +17,27 @@ public class PublisherService {
 
     private final PublisherRepository publisherRepository;
     private final PublisherMapper publisherMapper;
+    private final UniquenessValidator uniquenessValidator;
 
-    public PublisherService(PublisherRepository publisherRepository, PublisherMapper publisherMapper) {
+    public PublisherService(PublisherRepository publisherRepository,
+                            PublisherMapper publisherMapper,
+                            UniquenessValidator uniquenessValidator) {
         this.publisherRepository = publisherRepository;
         this.publisherMapper = publisherMapper;
+        this.uniquenessValidator = uniquenessValidator;
     }
 
     public PublisherResponseDTO createPublisher(PublisherRequestDTO request) {
-
         var publisher = publisherMapper.toEntity(request);
 
-        if(isNotBlank(publisher.getEmail()) && publisherRepository.existsByEmail(publisher.getEmail()))
-            throw new ResourceAlreadyExistsException("Editora", "email", publisher.getEmail());
-
-        if(isNotBlank(publisher.getTaxId()) && publisherRepository.existsByTaxId(publisher.getTaxId()))
-            throw new ResourceAlreadyExistsException("Editora", "identificador fiscal", publisher.getTaxId());
-
-        if(isNotBlank(publisher.getWebsite()) && publisherRepository.existsByWebsite(publisher.getWebsite()))
-            throw new ResourceAlreadyExistsException("Editora", "site", publisher.getWebsite());
-
-        if(isNotBlank(publisher.getTelephone()) && publisherRepository.existsByTelephone(publisher.getTelephone()))
-            throw new  ResourceAlreadyExistsException("Editora", "telefone", publisher.getTelephone());
+        uniquenessValidator.validateMultiple("Editora", Map.of(
+                "email", new UniquenessValidator.ValidationEntry(publisher.getEmail(), v -> publisherRepository.existsByEmail((String) v)),
+                "identificador fiscal", new UniquenessValidator.ValidationEntry(publisher.getTaxId(), v -> publisherRepository.existsByTaxId((String) v)),
+                "site", new UniquenessValidator.ValidationEntry(publisher.getWebsite(), v -> publisherRepository.existsByWebsite((String) v)),
+                "telefone", new UniquenessValidator.ValidationEntry(publisher.getTelephone(), v -> publisherRepository.existsByTelephone((String) v))
+        ));
 
         publisher = publisherRepository.save(publisher);
-
         return publisherMapper.toResponseDTO(publisher);
     }
 
