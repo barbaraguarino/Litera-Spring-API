@@ -20,5 +20,4 @@ public class ErrorResponseDTO {
         this.className = className;
         this.message = message;
     }
-
 }
