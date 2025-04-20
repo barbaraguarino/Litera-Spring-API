@@ -65,3 +65,50 @@ Este projeto tem como objetivos principais:
 - Servir como base para estudo e prática com Spring Boot 
 - Demonstrar arquitetura limpa e modular 
 - Aplicar conceitos de Engenharia de Software (design, documentação, testes)
+
+## 🧱 Estrutura de pacotes
+O projeto LiteraSpring adota uma arquitetura modular e organizada, com separação clara entre as camadas da aplicação. A seguir, a estrutura de pacotes do projeto:
+
+```css
+br.com.literaspring
+│
+├── application          # Camada de aplicação, contém regras de negócio e serviços (use cases)
+│   ├── book             # Funcionalidade de livros (DTOs, services, mappers, exceptions)
+│   ├── author           # Funcionalidade de autores
+│   ├── genre            # Funcionalidade de gêneros literários
+│   ├── saga             # Funcionalidade de sagas literárias
+│   ├── translator       # Funcionalidade de tradutores
+│   ├── ...
+│
+├── config               # Configurações globais da aplicação
+│   ├── security         # Configurações de segurança (ex: autenticação, autorização)
+│
+├── domain               # Camada de domínio, contendo entidades, enums e repositórios
+│   ├── book             # Entidade livro, enums e repositório
+│   ├── author           # Entidade autor
+│   ├── genre            # Entidade gênero
+│   ├── saga             # Entidade saga
+│   ├── translator       # Entidade tradutor
+│   ├── ...
+│
+├── infrastructure       # Integrações externas e infraestrutura da aplicação
+│   ├── aws              # Integração com serviços da AWS
+│   │   ├── rds          # Configurações e integração com RDS (banco de dados)
+│   │   ├── s3           # Integração com Amazon S3 (armazenamento de arquivos)
+│   ├── persistence      # Implementações específicas de persistência (caso necessário)
+│
+├── presentation         # Camada de apresentação (controllers/rest APIs)
+│   ├── book             # Controlador de livros
+│   ├── author           # Controlador de autores
+│   ├── genre            # Controlador de gêneros
+│   ├── saga             # Controlador de sagas
+│   ├── translator       # Controlador de tradutores
+│   ├── ...
+│
+├── shared               # Utilitários e componentes reutilizáveis em todo o projeto
+│   ├── exception        # Exceções globais
+│   ├── handler          # Manipuladores globais de exceção (ex: @ControllerAdvice)
+│   ├── dto              # DTOs genéricos
+│   ├── validation       # Anotações e lógicas de validação customizadas
+│   ├── util             # Classes utilitárias (ex: manipuladores de datas, strings, etc.)
+```
