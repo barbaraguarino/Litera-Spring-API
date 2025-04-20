@@ -15,18 +15,21 @@ public class PublisherMapper {
                 publisher.getFoundationDate(),
                 publisher.getDescription(),
                 publisher.getEmail(),
-                publisher.getCountryHeadquarter()
+                publisher.getWebsite(),
+                publisher.getTaxId(),
+                publisher.getTelephone()
         );
     }
 
     public Publisher toEntity(PublisherRequestDTO publisherRequestDTO) {
         return new Publisher(
-                null,
-                publisherRequestDTO.name().toUpperCase(),
-                publisherRequestDTO.foundationData().toUpperCase(),
-                publisherRequestDTO.description().toUpperCase(),
-                publisherRequestDTO.email().toUpperCase(),
-                publisherRequestDTO.countryHeadquarter().toUpperCase()
+                publisherRequestDTO.getName(),
+                publisherRequestDTO.getFoundationData(),
+                publisherRequestDTO.getDescription(),
+                publisherRequestDTO.getEmail(),
+                publisherRequestDTO.getWebsite(),
+                publisherRequestDTO.getTelephone(),
+                publisherRequestDTO.getTaxId()
         );
     }
 }
