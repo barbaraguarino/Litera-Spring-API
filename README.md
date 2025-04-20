@@ -70,7 +70,7 @@ Este projeto tem como objetivos principais:
 O projeto LiteraSpring adota uma arquitetura modular e organizada, com separação clara entre as camadas da aplicação. A seguir, a estrutura de pacotes do projeto:
 
 ```css
-br.com.literaspring
+com.guarino.literaspringapi
 │
 ├── application          # Camada de aplicação, contém regras de negócio e serviços (use cases)
 │   ├── book             # Funcionalidade de livros (DTOs, services, mappers, exceptions)
