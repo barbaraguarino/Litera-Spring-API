@@ -9,6 +9,8 @@ import com.guarino.literaspringapi.shared.exception.ResourceAlreadyExistsExcepti
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import static com.guarino.literaspringapi.shared.util.StringUtils.isNotBlank;
+
 @Service
 @Transactional
 public class PublisherService {
@@ -24,6 +26,19 @@ public class PublisherService {
     public PublisherResponseDTO createPublisher(PublisherRequestDTO request) {
 
         var publisher = publisherMapper.toEntity(request);
+
+        if(isNotBlank(publisher.getEmail()) && publisherRepository.existsByEmail(publisher.getEmail()))
+            throw new ResourceAlreadyExistsException("Editora", "email", publisher.getEmail());
+
+        if(isNotBlank(publisher.getTaxId()) && publisherRepository.existsByTaxId(publisher.getTaxId()))
+            throw new ResourceAlreadyExistsException("Editora", "identificador fiscal", publisher.getTaxId());
+
+        if(isNotBlank(publisher.getWebsite()) && publisherRepository.existsByWebsite(publisher.getWebsite()))
+            throw new ResourceAlreadyExistsException("Editora", "site", publisher.getWebsite());
+
+        if(isNotBlank(publisher.getTelephone()) && publisherRepository.existsByTelephone(publisher.getTelephone()))
+            throw new  ResourceAlreadyExistsException("Editora", "telefone", publisher.getTelephone());
+
         publisher = publisherRepository.save(publisher);
 
         return publisherMapper.toResponseDTO(publisher);
