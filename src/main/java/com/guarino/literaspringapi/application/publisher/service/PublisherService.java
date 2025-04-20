@@ -23,13 +23,6 @@ public class PublisherService {
 
     public PublisherResponseDTO createPublisher(PublisherRequestDTO request) {
 
-        if(!request.email().isEmpty() && publisherRepository.existsByEmail(request.email().toUpperCase()))
-            throw new ResourceAlreadyExistsException("Publisher", "email",  request.email());
-
-        if(publisherRepository.existsByNameAndFoundationDateAndCountryHeadquarter(request.name().toUpperCase(),
-                request.foundationData().toUpperCase(), request.countryHeadquarter().toUpperCase()))
-            throw new ResourceAlreadyExistsException("Publisher", "dados");
-
         var publisher = publisherMapper.toEntity(request);
         publisher = publisherRepository.save(publisher);
 
