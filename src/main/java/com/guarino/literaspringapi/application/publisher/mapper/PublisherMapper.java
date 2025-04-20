@@ -24,7 +24,7 @@ public class PublisherMapper {
     public Publisher toEntity(PublisherRequestDTO publisherRequestDTO) {
         return new Publisher(
                 publisherRequestDTO.getName(),
-                publisherRequestDTO.getFoundationData(),
+                publisherRequestDTO.getFoundationDate(),
                 publisherRequestDTO.getDescription(),
                 publisherRequestDTO.getEmail(),
                 publisherRequestDTO.getWebsite(),

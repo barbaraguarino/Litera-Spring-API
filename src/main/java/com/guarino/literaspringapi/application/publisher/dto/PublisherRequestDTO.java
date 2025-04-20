@@ -28,7 +28,7 @@ public class PublisherRequestDTO {
         )
         @Size(max = 10)
         @TrimOnly
-        private String foundationData;
+        private String foundationDate;
 
         @Size(max = 700, message = "A descrição precisa ter no máximo 700 caracteres.")
         @TrimOnly
