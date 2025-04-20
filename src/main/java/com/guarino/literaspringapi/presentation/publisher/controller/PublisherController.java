@@ -21,7 +21,7 @@ public class PublisherController {
         this.publisherService = publisherService;
     }
 
-    @PostMapping("/create")
+    @PostMapping
     public ResponseEntity<PublisherResponseDTO> createPublisher(@RequestBody @Valid PublisherRequestDTO request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(publisherService.createPublisher(request));
     }
