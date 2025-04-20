@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -18,19 +19,11 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponseDTO> handleValidationExceptions(MethodArgumentNotValidException ex) {
 
         List<FieldError> fieldErrors = ex.getBindingResult().getFieldErrors();
-        StringBuilder errorMessage = new StringBuilder();
-
-        for (FieldError fieldError : fieldErrors) {
-            errorMessage.append(fieldError.getField())
-                    .append(": ")
-                    .append(fieldError.getDefaultMessage())
-                    .append("\n");
-        }
 
         ErrorResponseDTO errorResponse = new ErrorResponseDTO(
                 "Erro de validação.",
                 "MethodArgumentNotValidException",
-                errorMessage.toString().trim(),
+                getValidationMessages(fieldErrors).toString(),
                 "VALIDATION_ERROR"
         );
 
@@ -51,6 +44,13 @@ public class GlobalExceptionHandler {
                 .status(HttpStatus.BAD_REQUEST)
                 .body(errorResponse);
     }
+
+    private List<String> getValidationMessages(List<FieldError> fieldErrors) {
+        return fieldErrors.stream()
+                .map(error -> error.getField() + ": " + error.getDefaultMessage())
+                .collect(Collectors.toList());
+    }
+
 }
 
 
