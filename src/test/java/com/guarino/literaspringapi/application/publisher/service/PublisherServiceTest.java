@@ -7,6 +7,11 @@ import com.guarino.literaspringapi.domain.publisher.entity.Publisher;
 import com.guarino.literaspringapi.domain.publisher.repository.PublisherRepository;
 import com.guarino.literaspringapi.shared.exception.ResourceAlreadyExistsException;
 import com.guarino.literaspringapi.shared.util.UniquenessValidator;
+
+import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.util.UUID;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -14,9 +19,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-
-import java.util.UUID;
 
 import static org.hibernate.validator.internal.util.Contracts.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
