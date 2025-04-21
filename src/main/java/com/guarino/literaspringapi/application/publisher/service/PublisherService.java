@@ -4,8 +4,8 @@ import com.guarino.literaspringapi.application.publisher.dto.PublisherRequestDTO
 import com.guarino.literaspringapi.application.publisher.dto.PublisherResponseDTO;
 import com.guarino.literaspringapi.application.publisher.mapper.PublisherMapper;
 import com.guarino.literaspringapi.domain.publisher.repository.PublisherRepository;
-
 import com.guarino.literaspringapi.shared.util.UniquenessValidator;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,14 +29,12 @@ public class PublisherService {
 
     public PublisherResponseDTO createPublisher(PublisherRequestDTO request) {
         var publisher = publisherMapper.toEntity(request);
-
         uniquenessValidator.validateMultiple("Editora", Map.of(
                 "email", new UniquenessValidator.ValidationEntry(publisher.getEmail(), v -> publisherRepository.existsByEmail((String) v)),
                 "identificador fiscal", new UniquenessValidator.ValidationEntry(publisher.getTaxId(), v -> publisherRepository.existsByTaxId((String) v)),
                 "site", new UniquenessValidator.ValidationEntry(publisher.getWebsite(), v -> publisherRepository.existsByWebsite((String) v)),
                 "telefone", new UniquenessValidator.ValidationEntry(publisher.getTelephone(), v -> publisherRepository.existsByTelephone((String) v))
         ));
-
         publisher = publisherRepository.save(publisher);
         return publisherMapper.toResponseDTO(publisher);
     }
