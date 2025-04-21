@@ -2,6 +2,7 @@ package com.guarino.literaspringapi.shared.handler;
 
 import com.guarino.literaspringapi.shared.dto.ErrorResponseDTO;
 import com.guarino.literaspringapi.shared.exception.ResourceAlreadyExistsException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -52,6 +53,19 @@ public class GlobalExceptionHandler {
         );
         return ResponseEntity
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(errorResponse);
+    }
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<ErrorResponseDTO> handleDataIntegrityViolationException(DataIntegrityViolationException ex) {
+        ErrorResponseDTO errorResponse = new ErrorResponseDTO(
+                "Erro de integridade de dados.",
+                ex.getClass().getSimpleName(),
+                List.of("A entrada fornecida contém invalidos ou potencialmente perigosos."),
+                "DATA_INTEGRITY_VIOLATION_ERROR"
+        );
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
                 .body(errorResponse);
     }
     
