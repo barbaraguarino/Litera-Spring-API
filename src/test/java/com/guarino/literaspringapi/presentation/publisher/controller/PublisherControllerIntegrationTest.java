@@ -3,11 +3,14 @@ package com.guarino.literaspringapi.presentation.publisher.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.guarino.literaspringapi.application.publisher.dto.PublisherRequestDTO;
 import com.guarino.literaspringapi.application.publisher.service.PublisherService;
+
+import org.mockito.Mockito;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.TestConfiguration;
@@ -65,7 +68,6 @@ class PublisherControllerIntegrationTest {
         @DisplayName("Deve lançar uma exceção de validação quando o nome for vazio")
         void shouldThrowValidationExceptionWhenNameIsEmpty() throws Exception {
             request.setName("");
-
             mockMvc.perform(post("/api/publisher")
                             .contentType(MediaType.APPLICATION_JSON)
                             .content(objectMapper.writeValueAsString(request)))
@@ -79,7 +81,6 @@ class PublisherControllerIntegrationTest {
         @DisplayName("Deve lançar uma exceção de validação quando email for nulo")
         void shouldThrowValidationExceptionWhenNameIsNull() throws Exception {
             request.setName(null);
-
             mockMvc.perform(post("/api/publisher")
                             .contentType(MediaType.APPLICATION_JSON)
                             .content(objectMapper.writeValueAsString(request)))
@@ -93,7 +94,6 @@ class PublisherControllerIntegrationTest {
         @DisplayName("Deve lançar uma exceção de validação quando o nome tiver menos de 3 caracteres.")
         void shouldThrowValidationExceptionWhenNameHasLessThanThreeCharacters() throws Exception {
             request.setName("S3");
-
             mockMvc.perform(post("/api/publisher")
                             .contentType(MediaType.APPLICATION_JSON)
                             .content(objectMapper.writeValueAsString(request)))
@@ -107,7 +107,6 @@ class PublisherControllerIntegrationTest {
         @DisplayName("Deve lançar uma exceção de validação quando data não tiver a formação desejada.")
         void shouldThrowValidationExceptionWhenDateFormatIsInvalid() throws Exception {
             request.setFoundationDate("25-10-2025");
-
             mockMvc.perform(post("/api/publisher")
                             .contentType(MediaType.APPLICATION_JSON)
                             .content(objectMapper.writeValueAsString(request)))
@@ -121,7 +120,6 @@ class PublisherControllerIntegrationTest {
         @DisplayName("Deve lançar uma exceção de validação quando telefone tiver mais de 15 caracteres.")
         void shouldThrowValidationExceptionWhenPhoneNumberExceedsMaxLength() throws Exception {
             request.setTelephone("1234567891234567891");
-
             mockMvc.perform(post("/api/publisher")
                             .contentType(MediaType.APPLICATION_JSON)
                             .content(objectMapper.writeValueAsString(request)))
@@ -135,7 +133,6 @@ class PublisherControllerIntegrationTest {
         @DisplayName("Deve lançar uma exceção de validação quando o e-mail for inválido")
         void shouldThrowValidationExceptionWhenEmailIsInvalid() throws Exception {
             request.setEmail("emaildominio.com");
-
             mockMvc.perform(post("/api/publisher")
                             .contentType(MediaType.APPLICATION_JSON)
                             .content(objectMapper.writeValueAsString(request)))
@@ -148,7 +145,6 @@ class PublisherControllerIntegrationTest {
         @DisplayName("Deve lançar uma exceção de validação quando telefone tiver caracteres diferentes de números.")
         void shouldThrowValidationExceptionWhenPhoneNumberHasNonNumericCharacters() throws Exception {
             request.setTelephone("125-548");
-
             mockMvc.perform(post("/api/publisher")
                             .contentType(MediaType.APPLICATION_JSON)
                             .content(objectMapper.writeValueAsString(request)))
@@ -161,19 +157,10 @@ class PublisherControllerIntegrationTest {
         @Test
         @DisplayName("Deve aceitar input suspeito sem executar SQL malicioso")
         void shouldTreatSqlInjectionLikeNormalTextAndCreateEntity() throws Exception {
-            PublisherRequestDTO requestWithMaliciousSQL = new PublisherRequestDTO(
-                    "Nome da Editora'; DROP TABLE publisher; --",
-                    "2025-04-20",
-                    "Descrição válida.",
-                    "email@dominio.com",
-                    "www.google.com",
-                    "123456789",
-                    "12345678901234"
-            );
-
+            request.setName("Nome da Editora'; DROP TABLE publisher; --");
             mockMvc.perform(post("/api/publisher")
                             .contentType(MediaType.APPLICATION_JSON)
-                            .content(objectMapper.writeValueAsString(requestWithMaliciousSQL)))
+                            .content(objectMapper.writeValueAsString(request)))
                     .andExpect(status().isCreated());
         }
     }
