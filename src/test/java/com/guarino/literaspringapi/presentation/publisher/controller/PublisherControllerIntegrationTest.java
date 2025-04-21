@@ -131,7 +131,7 @@ class PublisherControllerIntegrationTest {
         @Test
         @DisplayName("Deve lançar uma exceção de validação quando o e-mail for inválido")
         void shouldThrowValidationExceptionWhenEmailIsInvalid() throws Exception {
-            request.setEmail("emaildominio.com");
+            request.setEmail("email.dom.com");
             mockMvc.perform(post("/api/publisher")
                             .contentType(MediaType.APPLICATION_JSON)
                             .content(objectMapper.writeValueAsString(request)))
