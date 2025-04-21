@@ -17,16 +17,13 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponseDTO> handleValidationExceptions(MethodArgumentNotValidException ex) {
-
         List<FieldError> fieldErrors = ex.getBindingResult().getFieldErrors();
-
         ErrorResponseDTO errorResponse = new ErrorResponseDTO(
                 "Erro de validação.",
                 "MethodArgumentNotValidException",
                 getValidationMessages(fieldErrors),
                 "VALIDATION_ERROR"
         );
-
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
                 .body(errorResponse);
@@ -35,7 +32,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(ResourceAlreadyExistsException.class)
     public ResponseEntity<ErrorResponseDTO> handleResourceAlreadyExistsException(ResourceAlreadyExistsException ex) {
         ErrorResponseDTO errorResponse = new ErrorResponseDTO(
-                "Recurso já cadastrado.",
+                "Error de cadastro duplicado.",
                 "ResourceAlreadyExistsException",
                 List.of(ex.getMessage()),
                 "RESOURCE_EXISTS_ERROR"
@@ -45,6 +42,19 @@ public class GlobalExceptionHandler {
                 .body(errorResponse);
     }
 
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ErrorResponseDTO> handleGenericException(Exception ex) {
+        ErrorResponseDTO errorResponse = new ErrorResponseDTO(
+                "Erro interno no servidor.",
+                ex.getClass().getSimpleName(),
+                List.of("Ocorreu um erro inesperado. Por favor, entre em contato com o suporte."),
+                "GENERIC_SERVER_ERROR"
+        );
+        return ResponseEntity
+                .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(errorResponse);
+    }
+    
     private List<String> getValidationMessages(List<FieldError> fieldErrors) {
         return fieldErrors.stream()
                 .map(error -> error.getField() + ": " + error.getDefaultMessage())
