@@ -22,20 +22,28 @@ class FieldTransformationAspectIntegrationTest {
     @DisplayName("Deve transformar campos antes de entidade.")
     void shouldTransformFieldsBeforeToEntity() {
         PublisherRequestDTO request = new PublisherRequestDTO(
-                " Nome da Editora ",
-                "2025-04-20",
-                "   Descrição válida.   ",
-                "email@dominio.com",
-                "https://www.google.com",
-                "123456789",
-                "12345678901234"
+                "Editora Abril   ",
+                "1950-03-04",
+                "   A Editora Abril é uma das maiores editoras de revistas do Brasil, " +
+                        "com publicações em diversos segmentos, incluindo revistas de notícias, " +
+                        "entretenimento e estilo de vida.   ",
+                "  contato@abril.com.br",
+                "https://www.abril.com.br  ",
+                " 02183757000193",
+                "1134567890 "
         );
 
         Publisher publisher = publisherMapper.toEntity(request);
 
-        // Verificando a transformação dos campos
-        assertEquals("NOME DA EDITORA", publisher.getName()); // O nome deve ser uppercased
-        assertEquals("Descrição válida.", publisher.getDescription()); // A descrição deve ser trimada
+        assertEquals("EDITORA ABRIL", publisher.getName());
+        assertEquals("A Editora Abril é uma das maiores editoras de revistas do Brasil, " +
+                "com publicações em diversos segmentos, incluindo revistas de notícias, " +
+                "entretenimento e estilo de vida.", publisher.getDescription());
+        assertEquals("CONTATO@ABRIL.COM.BR", publisher.getEmail());
+        assertEquals("HTTPS://WWW.ABRIL.COM.BR", publisher.getWebsite());
+        assertEquals("02183757000193", publisher.getTaxId());
+        assertEquals("1134567890", publisher.getTelephone());
+
     }
 }
 
