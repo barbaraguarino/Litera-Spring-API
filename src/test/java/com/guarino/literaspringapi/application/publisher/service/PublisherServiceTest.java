@@ -106,8 +106,8 @@ class PublisherServiceTest {
         }
 
         @Test
-        @DisplayName("Deve lançar exceção quando o cadastro for duplicado")
-        void shouldThrowExceptionWhenPublisherExists() {
+        @DisplayName("Deve lançar uma exceção de recurso já existente quando o e-mail do editor for duplicado.")
+        void shouldThrowResourceAlreadyExistsExceptionWhenPublisherEmailIsDuplicated() {
             when(publisherMapper.toEntity(request)).thenReturn(publisher);
 
             doThrow(new ResourceAlreadyExistsException("Editora", "email", request.getEmail()))
