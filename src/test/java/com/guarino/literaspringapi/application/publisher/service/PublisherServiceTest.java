@@ -5,6 +5,7 @@ import com.guarino.literaspringapi.application.publisher.dto.PublisherResponseDT
 import com.guarino.literaspringapi.application.publisher.mapper.PublisherMapper;
 import com.guarino.literaspringapi.domain.publisher.entity.Publisher;
 import com.guarino.literaspringapi.domain.publisher.repository.PublisherRepository;
+import com.guarino.literaspringapi.shared.exception.ResourceAlreadyExistsException;
 import com.guarino.literaspringapi.shared.util.UniquenessValidator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -19,6 +20,7 @@ import java.util.UUID;
 
 import static org.hibernate.validator.internal.util.Contracts.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -79,6 +81,7 @@ class PublisherServiceTest {
 
     @Nested
     class CreatePublisher{
+
         @Test
         @DisplayName("Deve criar a editora quando todos os campos forem válidos.")
         void shouldCreatePublisherWhenAllFieldsAreValid(){
@@ -102,7 +105,22 @@ class PublisherServiceTest {
 
         }
 
+        @Test
+        @DisplayName("Deve lançar exceção quando o cadastro for duplicado")
+        void shouldThrowExceptionWhenPublisherExists() {
+            when(publisherMapper.toEntity(request)).thenReturn(publisher);
 
+            doThrow(new ResourceAlreadyExistsException("Editora", "email", request.getEmail()))
+                    .when(uniquenessValidator).validateMultiple(anyString(), anyMap());
+
+            assertThrows(ResourceAlreadyExistsException.class, () ->
+                    publisherService.createPublisher(request)
+            );
+
+            verify(publisherMapper, times(1)).toEntity(request);
+            verify(uniquenessValidator, times(1)).validateMultiple(anyString(), anyMap());
+            verify(publisherRepository, times(0)).save(any(Publisher.class));
+        }
 
     }
 }
