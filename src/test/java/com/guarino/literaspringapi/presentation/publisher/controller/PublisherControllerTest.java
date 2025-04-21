@@ -82,6 +82,25 @@ class PublisherControllerTest {
                     .andExpect(jsonPath("$.errorType").value("Erro de validação."))
                     .andExpect(jsonPath("$.messages[?(@ =~ /.*email.*/i)]").exists());
         }
+
+        @Test
+        @DisplayName("Deve aceitar input suspeito sem executar SQL malicioso")
+        void shouldTreatSqlInjectionLikeNormalTextAndCreateEntity() throws Exception {
+            PublisherRequestDTO requestWithMaliciousSQL = new PublisherRequestDTO(
+                    "Nome da Editora'; DROP TABLE publisher; --",
+                    "2025-04-20",
+                    "Descrição válida.",
+                    "email@dominio.com",
+                    "www.google.com",
+                    "123456789",
+                    "12345678901234"
+            );
+
+            mockMvc.perform(post("/api/publisher")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(objectMapper.writeValueAsString(requestWithMaliciousSQL)))
+                    .andExpect(status().isCreated());
+        }
     }
 }
 
