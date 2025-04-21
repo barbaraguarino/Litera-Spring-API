@@ -2,14 +2,15 @@ package com.guarino.literaspringapi.application.publisher.dto;
 
 import com.guarino.literaspringapi.shared.validation.TrimOnly;
 import com.guarino.literaspringapi.shared.validation.UpperTrim;
+
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
 
 @Getter
 @Setter
@@ -42,7 +43,7 @@ public class PublisherRequestDTO {
         private String email;
 
         @Pattern(
-                regexp = "(?i)^(https?://)?(www\\.)?[a-zA-Z0-9\\-]+(\\.[a-zA-Z]{2,}){1,}(/.*)?$",
+                regexp = "(?i)^(https?://)?(www\\.)?[a-zA-Z0-9\\-]+(\\.[a-zA-Z]{2,})+(/.*)?$",
                 message = "O site deve ser uma URL válida."
         )
         @Size(max = 200)
@@ -64,6 +65,5 @@ public class PublisherRequestDTO {
         @Size(max = 15)
         @TrimOnly
         private String telephone;
-
 }
 
