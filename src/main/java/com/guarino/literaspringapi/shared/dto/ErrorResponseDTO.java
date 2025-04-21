@@ -19,7 +19,10 @@ public class ErrorResponseDTO {
     private List<String> messages;
     private String errorCode;
 
-    public ErrorResponseDTO(String errorType, String className, List<String> messages, String errorCode) {
+    public ErrorResponseDTO(String errorType,
+                            String className,
+                            List<String> messages,
+                            String errorCode) {
         this.errorType = errorType;
         this.timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
         this.className = className;
