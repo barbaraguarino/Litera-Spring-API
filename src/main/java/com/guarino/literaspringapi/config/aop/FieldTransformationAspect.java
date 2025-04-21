@@ -2,10 +2,12 @@ package com.guarino.literaspringapi.config.aop;
 
 import com.guarino.literaspringapi.shared.validation.TrimOnly;
 import com.guarino.literaspringapi.shared.validation.UpperTrim;
+
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
+
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Field;
@@ -33,7 +35,6 @@ public class FieldTransformationAspect {
 
     private void transformFields(Object obj) {
         if (obj == null) return;
-
         Field[] fields = obj.getClass().getDeclaredFields();
         for (Field field : fields) {
             if (field.getType().equals(String.class)) {
