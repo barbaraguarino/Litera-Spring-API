@@ -121,6 +121,6 @@ class PublisherServiceTest {
             verify(uniquenessValidator, times(1)).validateMultiple(anyString(), anyMap());
             verify(publisherRepository, times(0)).save(any(Publisher.class));
         }
-
+        
     }
 }
