@@ -58,7 +58,6 @@ class PublisherControllerIntegrationTest {
                 "02183757000193",
                 "1134567890"
         );
-
     }
 
     @Nested
