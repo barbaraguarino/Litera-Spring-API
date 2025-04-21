@@ -97,6 +97,8 @@ class PublisherServiceTest {
             assertEquals(response.name(), result.name());
             assertEquals(response.email(), result.email());
             verify(publisherRepository, times(1)).save(publisher);
+            verify(publisherMapper, times(1)).toEntity(request);
+            verify(publisherMapper, times(1)).toResponseDTO(publisher);
 
         }
 
