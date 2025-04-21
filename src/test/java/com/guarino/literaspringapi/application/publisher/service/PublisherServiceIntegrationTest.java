@@ -30,9 +30,7 @@ class PublisherServiceIntegrationTest {
                 " 02183757000193",
                 "1134567890 "
         );
-
         PublisherResponseDTO response = publisherService.createPublisher(request);
-
         assertEquals("EDITORA ABRIL", response.name());
         assertEquals("A Editora Abril é uma das maiores editoras de revistas do Brasil, " +
                 "com publicações em diversos segmentos, incluindo revistas de notícias, " +

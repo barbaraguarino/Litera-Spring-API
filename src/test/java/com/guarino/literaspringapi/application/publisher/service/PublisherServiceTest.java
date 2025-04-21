@@ -55,7 +55,6 @@ class PublisherServiceTest {
                 "123456789",
                 "12345678901234"
         );
-
         publisher = new Publisher(
                 "NOME DA EDITORA",
                 "2025-04-20",
@@ -65,9 +64,7 @@ class PublisherServiceTest {
                 "123456789",
                 "12345678901234"
         );
-
         uuid = UUID.randomUUID().toString();
-
         response = new PublisherResponseDTO(
                 uuid,
                 "NOME DA EDITORA",
@@ -78,7 +75,6 @@ class PublisherServiceTest {
                 "123456789",
                 "12345678901234"
         );
-
     }
 
     @Nested
@@ -87,7 +83,6 @@ class PublisherServiceTest {
         @Test
         @DisplayName("Deve criar a editora quando todos os campos forem válidos.")
         void shouldCreatePublisherWhenAllFieldsAreValid(){
-
             when(publisherMapper.toEntity(request)).thenReturn(publisher);
             when(publisherRepository.save(any(Publisher.class))).thenAnswer(invocation -> {
                 Publisher publisherToSave = invocation.getArgument(0);
@@ -95,34 +90,27 @@ class PublisherServiceTest {
                 return publisherToSave;
             });
             when(publisherMapper.toResponseDTO(publisher)).thenReturn(response);
-
             PublisherResponseDTO result = publisherService.createPublisher(request);
-
             assertNotNull(result);
             assertEquals(response.name(), result.name());
             assertEquals(response.email(), result.email());
             verify(publisherRepository, times(1)).save(publisher);
             verify(publisherMapper, times(1)).toEntity(request);
             verify(publisherMapper, times(1)).toResponseDTO(publisher);
-
         }
 
         @Test
         @DisplayName("Deve lançar uma exceção de recurso já existente quando o e-mail do editor for duplicado.")
         void shouldThrowResourceAlreadyExistsExceptionWhenPublisherEmailIsDuplicated() {
             when(publisherMapper.toEntity(request)).thenReturn(publisher);
-
             doThrow(new ResourceAlreadyExistsException("Editora", "email", request.getEmail()))
                     .when(uniquenessValidator).validateMultiple(anyString(), anyMap());
-
             assertThrows(ResourceAlreadyExistsException.class, () ->
                     publisherService.createPublisher(request)
             );
-
             verify(publisherMapper, times(1)).toEntity(request);
             verify(uniquenessValidator, times(1)).validateMultiple(anyString(), anyMap());
             verify(publisherRepository, times(0)).save(any(Publisher.class));
         }
-        
     }
 }
