@@ -51,8 +51,8 @@ public class PublisherRequestDTO {
         private String website;
 
         @Pattern(
-                regexp = "^[0-9]{5,20}$",
-                message = "O identificador fiscal deve conter apenas números (mínimo 5 e máximo 20 dígitos), sem formatação."
+                regexp = "^[A-Za-z0-9]{5,20}$",
+                message = "O identificador fiscal deve conter apenas letras e números, sem espaços ou símbolos, entre 5 e 20 caracteres."
         )
         @Size(max = 20)
         @UpperTrim
