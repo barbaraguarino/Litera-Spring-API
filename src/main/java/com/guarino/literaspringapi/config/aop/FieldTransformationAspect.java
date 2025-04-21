@@ -36,28 +36,35 @@ public class FieldTransformationAspect {
 
         Field[] fields = obj.getClass().getDeclaredFields();
         for (Field field : fields) {
-            if (!field.getType().equals(String.class)) continue;
-
-            field.setAccessible(true);
-            try {
-                String value = (String) field.get(obj);
-                if (value == null) continue;
-
-                if (field.isAnnotationPresent(UpperTrim.class)) {
-                    String transformed = value.trim().toUpperCase();
-                    if (!transformed.equals(value)) {
-                        field.set(obj, transformed);
-                    }
-                } else if (field.isAnnotationPresent(TrimOnly.class)) {
-                    String transformed = value.trim();
-                    if (!transformed.equals(value)) {
-                        field.set(obj, transformed);
-                    }
-                }
-
-            } catch (IllegalAccessException e) {
-                logger.log(Level.SEVERE, "Erro ao acessar o campo: " + obj.getClass().getSimpleName() + "." + field.getName(), e);
+            if (field.getType().equals(String.class)) {
+                transformStringField(obj, field);
             }
         }
     }
+
+    private void transformStringField(Object obj, Field field) {
+        field.setAccessible(true);
+        try {
+            String value = (String) field.get(obj);
+            if (value != null && !value.trim().isEmpty()) {
+                String transformed = applyTransformation(field, value);
+                if (!transformed.equals(value)) {
+                    field.set(obj, transformed);
+                }
+            }
+        } catch (IllegalAccessException e) {
+            logger.log(Level.SEVERE, "Erro ao acessar o campo: " + obj.getClass().getSimpleName() + "." + field.getName(), e);
+        }
+    }
+
+    private String applyTransformation(Field field, String value) {
+        if (field.isAnnotationPresent(UpperTrim.class)) {
+            return value.trim().toUpperCase();
+        } else if (field.isAnnotationPresent(TrimOnly.class)) {
+            return value.trim();
+        } else {
+            return value;
+        }
+    }
 }
+
