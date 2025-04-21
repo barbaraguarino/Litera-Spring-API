@@ -61,6 +61,27 @@ class PublisherControllerTest {
                     .andExpect(jsonPath("$.messages").isArray())
                     .andExpect(jsonPath("$.messages[?(@ =~ /.*nome.*/i)]").exists());
         }
+
+        @Test
+        @DisplayName("Deve lançar uma exceção de validação quando o e-mail for inválido")
+        void shouldThrowValidationExceptionWhenEmailIsInvalid() throws Exception {
+            PublisherRequestDTO requestWithInvalidEmail = new PublisherRequestDTO(
+                    "Nome da Editora",
+                    "2025-04-20",
+                    "Descrição válida.",
+                    "email-inválido",  // Email inválido
+                    "https://www.google.com",
+                    "123456789",
+                    "12345678901234"
+            );
+
+            mockMvc.perform(post("/api/publisher")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(objectMapper.writeValueAsString(requestWithInvalidEmail)))
+                    .andExpect(status().isBadRequest())
+                    .andExpect(jsonPath("$.errorType").value("Erro de validação."))
+                    .andExpect(jsonPath("$.messages[?(@ =~ /.*email.*/i)]").exists());
+        }
     }
 }
 
