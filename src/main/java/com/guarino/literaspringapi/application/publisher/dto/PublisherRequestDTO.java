@@ -27,7 +27,6 @@ public class PublisherRequestDTO {
                 message = "A data deve estar no formato yyyy-MM-dd."
         )
         @Size(max = 10)
-        @TrimOnly
         private String foundationDate;
 
         @Size(max = 700, message = "A descrição precisa ter no máximo 700 caracteres.")
