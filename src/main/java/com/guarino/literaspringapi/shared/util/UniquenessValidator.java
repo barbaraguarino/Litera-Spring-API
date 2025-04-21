@@ -1,6 +1,7 @@
 package com.guarino.literaspringapi.shared.util;
 
 import com.guarino.literaspringapi.shared.exception.ResourceAlreadyExistsException;
+
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
@@ -27,7 +28,6 @@ public class UniquenessValidator {
 
     private boolean isNotEmpty(Object value) {
         if (value == null) return false;
-
         if (value instanceof String s) {
             return StringUtils.isNotBlank(s);
         }
