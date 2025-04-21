@@ -23,7 +23,7 @@ public class GlobalExceptionHandler {
         ErrorResponseDTO errorResponse = new ErrorResponseDTO(
                 "Erro de validação.",
                 "MethodArgumentNotValidException",
-                getValidationMessages(fieldErrors).toString(),
+                getValidationMessages(fieldErrors),
                 "VALIDATION_ERROR"
         );
 
@@ -37,8 +37,8 @@ public class GlobalExceptionHandler {
         ErrorResponseDTO errorResponse = new ErrorResponseDTO(
                 "Recurso já cadastrado.",
                 "ResourceAlreadyExistsException",
-                ex.getMessage(),
-                "ALREADY_EXISTS_ERROR"
+                List.of(ex.getMessage()),
+                "RESOURCE_EXISTS_ERROR"
         );
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
