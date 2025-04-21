@@ -17,8 +17,8 @@ import lombok.Setter;
 @AllArgsConstructor
 public class PublisherRequestDTO {
 
-        @NotBlank(message = "O nome não pode ser vazio ou nulo.")
-        @Size(max = 150, message = "O nome precisa ter no máximo 150 caracteres.")
+        @NotBlank(message = "O nome deve ser informado.")
+        @Size(max = 150, min = 3, message = "O nome precisa ter no máximo 150 caracteres e no mínimo 3 caracteres.")
         @UpperTrim
         private String name;
 
@@ -35,7 +35,7 @@ public class PublisherRequestDTO {
         private String description;
 
         @Pattern(
-                regexp = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$",
+                regexp = "(?i)^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,}$",
                 message = "Formato de e-mail inválido."
         )
         @Size(max = 150)
@@ -43,13 +43,17 @@ public class PublisherRequestDTO {
         private String email;
 
         @Pattern(
-                regexp = "^(https?://)?(www\\.)?[a-zA-Z0-9\\-]+(\\.[a-zA-Z]{2,}){1,}(/.*)?$",
+                regexp = "(?i)^(https?://)?(www\\.)?[a-zA-Z0-9\\-]+(\\.[a-zA-Z]{2,}){1,}(/.*)?$",
                 message = "O site deve ser uma URL válida."
         )
         @Size(max = 200)
         @UpperTrim
         private String website;
 
+        @Pattern(
+                regexp = "^[0-9]{5,20}$",
+                message = "O identificador fiscal deve conter apenas números (mínimo 5 e máximo 20 dígitos), sem formatação."
+        )
         @Size(max = 20)
         @UpperTrim
         private String taxId;
