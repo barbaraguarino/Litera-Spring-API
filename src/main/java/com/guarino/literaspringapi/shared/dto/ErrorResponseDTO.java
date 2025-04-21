@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Getter
 @Setter
@@ -19,7 +20,7 @@ public class ErrorResponseDTO {
 
     public ErrorResponseDTO(String errorType, String className, String message, String errorCode) {
         this.errorType = errorType;
-        this.timestamp = LocalDateTime.now().toString();
+        this.timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
         this.className = className;
         this.message = message;
         this.errorCode = errorCode;
