@@ -7,6 +7,7 @@ import com.guarino.literaspringapi.domain.publisher.entity.Publisher;
 import com.guarino.literaspringapi.domain.publisher.repository.PublisherRepository;
 import com.guarino.literaspringapi.shared.exception.ResourceAlreadyExistsException;
 import com.guarino.literaspringapi.shared.util.UniquenessValidator;
+import com.guarino.literaspringapi.shared.validation.CaseId;
 
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -19,6 +20,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.springframework.transaction.annotation.Transactional;
 
 import static org.hibernate.validator.internal.util.Contracts.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -27,6 +29,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
+@Transactional
 class PublisherServiceTest {
 
     @Mock
@@ -82,6 +85,7 @@ class PublisherServiceTest {
 
         @Test
         @DisplayName("Deve criar a editora quando todos os campos forem válidos.")
+        @CaseId("CT-001")
         void shouldCreatePublisherWhenAllFieldsAreValid(){
             when(publisherMapper.toEntity(request)).thenReturn(publisher);
             when(publisherRepository.save(any(Publisher.class))).thenAnswer(invocation -> {
@@ -101,6 +105,7 @@ class PublisherServiceTest {
 
         @Test
         @DisplayName("Deve lançar uma exceção de recurso já existente quando o e-mail do editor for duplicado.")
+        @CaseId("CT-002")
         void shouldThrowResourceAlreadyExistsExceptionWhenPublisherEmailIsDuplicated() {
             when(publisherMapper.toEntity(request)).thenReturn(publisher);
             doThrow(new ResourceAlreadyExistsException("Editora", "email", request.getEmail()))
