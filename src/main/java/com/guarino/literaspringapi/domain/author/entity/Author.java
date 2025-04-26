@@ -1,7 +1,6 @@
 package com.guarino.literaspringapi.domain.author.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -10,7 +9,6 @@ import java.util.UUID;
 
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
 @Entity
 @Table(name = "author")
@@ -28,6 +26,27 @@ public class Author {
     private String website;
     private String description;
     private String imagesUrl;
-    private String nationality = "BRASILEIRO";
+    private String nationality;
 
+    public Author(String name,
+                  String surname,
+                  String pseudonym,
+                  String email,
+                  String birthDate,
+                  String deathDate,
+                  String website,
+                  String description,
+                  String imagesUrl,
+                  String nationality) {
+        this.name = name;
+        this.surname = surname;
+        this.pseudonym = pseudonym;
+        this.email = email;
+        this.birthDate = birthDate;
+        this.deathDate = deathDate;
+        this.website = website;
+        this.description = description;
+        this.imagesUrl = imagesUrl;
+        this.nationality = nationality;
+    }
 }
