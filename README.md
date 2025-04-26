@@ -85,7 +85,7 @@ O projeto LiteraSpring adota uma arquitetura modular e organizada, com separaç�
    │   ├── ...
    │
    ├── config               # Configurações globais da aplicação
-   │   ├── security         # Configurações de segurança (ex: autenticação, autorização)
+   │   ├── aop              # Configurações do AOP
    │
    ├── domain               # Camada de domínio, contendo entidades, enums e repositórios
    │   ├── book             # Entidade livro, enums e repositório
