@@ -118,7 +118,3 @@ O projeto LiteraSpring adota uma arquitetura modular e organizada, com separaç�
 ```
 ## 🧪 Testes
 O projeto está sendo estruturado para suportar testes unitários e de integração. Os testes de integração utilizarão um banco separado via application-test.properties, permitindo verificar a integridade dos fluxos completos e a proteção contra falhas como SQL Injection.
-## 🔄 Próximos passos
-- Criação de testes automatizados (JUnit 5 + Testcontainers ou banco embarcado)
-- Validações mais sofisticadas com ConstraintValidator
-- Paginação, ordenação e filtros nos endpoints
