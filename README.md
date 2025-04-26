@@ -3,7 +3,7 @@
 LiteraSpring é uma API RESTful desenvolvida com Spring Boot para gerenciamento de livros. O sistema permite o controle de livros, autores, gêneros literários, tradutores, sagas literárias, entre outras informações, visando oferecer uma base sólida e escalável para aplicações de gerenciamento bibliotecário.
 
 Este projeto é ideal para fins acadêmicos e práticos, ilustrando boas práticas de arquitetura, organização de código e utilização do ecossistema Spring.
-## ⚙️ Tecnologias utilizadas
+## Tecnologias utilizadas
 - Java 17+
 - Spring Boot 3.4.4
 - Spring Web
@@ -11,7 +11,7 @@ Este projeto é ideal para fins acadêmicos e práticos, ilustrando boas prátic
 - PostgreSQL
 - Maven
 - IntelliJ IDEA (recomendado)
-## 📦 Instalação e execução local
+## Instalação e execução local
 
 ### Pré-requisitos
 Antes de começar, você vai precisar ter instalado:
@@ -56,12 +56,12 @@ Antes de começar, você vai precisar ter instalado:
 6. Acesse o sistema:
 
     A aplicação estará disponível em: http://localhost:8080
-## 📚 Objetivos do projeto
+## Objetivos do projeto
 Este projeto tem como objetivos principais:
 - Servir como base para estudo e prática com Spring Boot 
 - Demonstrar arquitetura limpa e modular 
 - Aplicar conceitos de Engenharia de Software (design, documentação, testes)
-## ✨ Funcionalidades implementadas
+## Funcionalidades implementadas
 - CRUD completo de entidades: Livro, Autor, Gênero Literário, Tradutor e Saga Literária.
 - Arquitetura em camadas com separação por contexto (bounded context).
 - Mapeamento entre entidades e DTOs com camada de mapeamento dedicada.
@@ -71,7 +71,7 @@ Este projeto tem como objetivos principais:
    - `@TrimOnly`: remove espaços em branco antes/depois do texto.
 
 Essas anotações utilizam programação orientada a aspectos (AOP) para aplicar as transformações de forma transparente e desacoplada, garantindo limpeza de dados antes da persistência ou do uso no sistema.
-## 🧱 Estrutura de pacotes
+## Estrutura de pacotes
 O projeto LiteraSpring adota uma arquitetura modular e organizada, com separação clara entre as camadas da aplicação. A seguir, a estrutura de pacotes do projeto:
 ```text
    com.guarino.literaspringapi
@@ -116,5 +116,5 @@ O projeto LiteraSpring adota uma arquitetura modular e organizada, com separaç�
    │   ├── validation       # Anotações e lógicas de validação customizadas
    │   ├── util             # Classes utilitárias (ex: manipuladores de datas, strings, etc.)
 ```
-## 🧪 Testes
+## Testes
 O projeto está sendo estruturado para suportar testes unitários e de integração. Os testes de integração utilizarão um banco separado via application-test.properties, permitindo verificar a integridade dos fluxos completos e a proteção contra falhas como SQL Injection.
