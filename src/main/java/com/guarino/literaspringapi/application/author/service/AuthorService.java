@@ -8,6 +8,7 @@ import com.guarino.literaspringapi.shared.util.UniquenessValidator;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Map;
 
@@ -27,11 +28,17 @@ public class AuthorService {
 
     public AuthorResponseDTO createAuthor(@Valid AuthorRequestDTO request) {
         var author = authorMapper.toEntity(request);
+        if(request.getImage() != null)
+            author.setImageUrl(this.uploadImage(request.getImage()));
         uniquenessValidator.validateMultiple("Autor(a)", Map.of(
                 "email", new UniquenessValidator.ValidationEntry(author.getEmail(),
                         v -> authorRepository.existsByEmail((String) v))
         ));
         author = authorRepository.save(author);
         return authorMapper.toResponseDTO(author);
+    }
+
+    private String uploadImage(MultipartFile image) {
+        return "";
     }
 }
