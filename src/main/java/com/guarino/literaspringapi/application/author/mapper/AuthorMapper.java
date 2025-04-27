@@ -33,8 +33,7 @@ public class AuthorMapper {
                 request.getBirthDate(),
                 request.getDeathDate(),
                 request.getWebsite(),
-                request.getDescription(),
-                request.getNationality()
+                request.getDescription()
         );
     }
 }

@@ -35,8 +35,7 @@ public class Author {
                   String birthDate,
                   String deathDate,
                   String website,
-                  String description,
-                  String nationality) {
+                  String description) {
         this.name = name;
         this.surname = surname;
         this.pseudonym = pseudonym;
@@ -45,6 +44,6 @@ public class Author {
         this.deathDate = deathDate;
         this.website = website;
         this.description = description;
-        this.nationality = nationality;
+        this.nationality = "BRASILEIRO";
     }
 }
