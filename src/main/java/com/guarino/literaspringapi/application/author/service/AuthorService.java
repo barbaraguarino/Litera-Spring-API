@@ -3,6 +3,7 @@ package com.guarino.literaspringapi.application.author.service;
 import com.guarino.literaspringapi.application.author.dto.AuthorRequestDTO;
 import com.guarino.literaspringapi.application.author.dto.AuthorResponseDTO;
 import com.guarino.literaspringapi.application.author.mapper.AuthorMapper;
+import com.guarino.literaspringapi.domain.author.entity.Author;
 import com.guarino.literaspringapi.domain.author.repository.AuthorRepository;
 import com.guarino.literaspringapi.infrastructure.storage.StorageService;
 import com.guarino.literaspringapi.shared.util.UniquenessValidator;
@@ -32,21 +33,24 @@ public class AuthorService {
 
     public AuthorResponseDTO createAuthor(@Valid AuthorRequestDTO request){
         var author = authorMapper.toEntity(request);
-        if(request.getImage() != null)
-            author.setImageUrl(this.uploadImage(request.getImage()));
         uniquenessValidator.validateMultiple("Autor(a)", Map.of(
                 "email", new UniquenessValidator.ValidationEntry(author.getEmail(),
                         v -> authorRepository.existsByEmail((String) v))
         ));
+        if(request.getNationality() != null && !request.getNationality().isEmpty())
+            author.setNationality(request.getNationality());
         author = authorRepository.save(author);
+        if(request.getImage() != null)
+            author = uploadImage(request.getImage(),  author);
         return authorMapper.toResponseDTO(author);
     }
 
-    private String uploadImage(MultipartFile image){
+    private Author uploadImage(MultipartFile image, Author author){
         try {
-            return storageService.uploadFile(image, "Author's image.");
+            author.setImageUrl(storageService.uploadFile(image, "Author's image."));
+            return authorRepository.save(author);
         }catch (IOException e){
-            return  null;
+            return author;
         }
     }
 }
