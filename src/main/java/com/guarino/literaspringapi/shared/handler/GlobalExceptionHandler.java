@@ -11,7 +11,10 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import software.amazon.awssdk.core.exception.SdkClientException;
+import software.amazon.awssdk.services.s3.model.S3Exception;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -65,6 +68,45 @@ public class GlobalExceptionHandler {
                 ex.getClass().getSimpleName(),
                 List.of("A entrada fornecida contém dados inválidos ou potencialmente perigosos."),
                 "DATA_INTEGRITY_VIOLATION_ERROR"
+        );
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(errorResponse);
+    }
+
+    @ExceptionHandler(S3Exception.class)
+    public ResponseEntity<ErrorResponseDTO> handleS3Exception(S3Exception ex) {
+        ErrorResponseDTO errorResponse = new ErrorResponseDTO(
+                "Upload S3",
+                ex.getClass().getSimpleName(),
+                List.of("Houve um erro ao tentar realizar o upload no S3."),
+                "S3_UPLOAD_ERROR"
+        );
+        return ResponseEntity
+                .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(errorResponse);
+    }
+
+    @ExceptionHandler(SdkClientException.class)
+    public ResponseEntity<ErrorResponseDTO> handleSdkClientException(SdkClientException ex) {
+        ErrorResponseDTO errorResponse = new ErrorResponseDTO(
+                "Cliente AWS",
+                ex.getClass().getSimpleName(),
+                List.of("Problema de comunicação com o cliente AWS."),
+                "AWS_CLIENT_ERROR"
+        );
+        return ResponseEntity
+                .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(errorResponse);
+    }
+
+    @ExceptionHandler(IOException.class)
+    public ResponseEntity<ErrorResponseDTO> handleIOException(IOException ex) {
+        ErrorResponseDTO errorResponse = new ErrorResponseDTO(
+                "Leitura de Arquivo",
+                ex.getClass().getSimpleName(),
+                List.of("Erro ao tentar acessar ou ler o arquivo para o upload."),
+                "FILE_READ_ERROR"
         );
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
