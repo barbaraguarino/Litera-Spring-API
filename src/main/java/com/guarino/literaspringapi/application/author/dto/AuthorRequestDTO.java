@@ -9,6 +9,7 @@ import org.hibernate.validator.constraints.URL;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
 
 @Getter
 @Setter
@@ -54,10 +55,7 @@ public class AuthorRequestDTO {
     @TrimOnly
     private String description;
 
-    @Size(max = 225, message = "A url de imagem deve conter no máximo 150 caracteres.")
-    @URL
-    @TrimOnly
-    private String imagesUrl;
+    private MultipartFile image;
 
     @Size(max = 100, message = "A nacionalidade deve conter no máximo 100 caracteres.")
     @OnlyLetters

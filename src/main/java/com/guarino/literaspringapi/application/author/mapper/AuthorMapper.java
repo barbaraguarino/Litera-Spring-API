@@ -19,7 +19,7 @@ public class AuthorMapper {
                 author.getDeathDate(),
                 author.getWebsite(),
                 author.getDescription(),
-                author.getImagesUrl(),
+                author.getImageUrl(),
                 author.getNationality()
         );
     }
@@ -34,7 +34,6 @@ public class AuthorMapper {
                 request.getDeathDate(),
                 request.getWebsite(),
                 request.getDescription(),
-                request.getImagesUrl(),
                 request.getNationality()
         );
     }

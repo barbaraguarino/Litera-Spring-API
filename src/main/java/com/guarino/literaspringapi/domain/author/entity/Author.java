@@ -25,7 +25,7 @@ public class Author {
     private String deathDate;
     private String website;
     private String description;
-    private String imagesUrl;
+    private String imageUrl;
     private String nationality;
 
     public Author(String name,
@@ -36,7 +36,6 @@ public class Author {
                   String deathDate,
                   String website,
                   String description,
-                  String imagesUrl,
                   String nationality) {
         this.name = name;
         this.surname = surname;
@@ -46,7 +45,6 @@ public class Author {
         this.deathDate = deathDate;
         this.website = website;
         this.description = description;
-        this.imagesUrl = imagesUrl;
         this.nationality = nationality;
     }
 }
